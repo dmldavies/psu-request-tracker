@@ -1,0 +1,216 @@
+/*
+  Design tokens — PSU Request Tracker
+  Philosophy: Dieter Rams / Functionalist ("less but better")
+  See .design/psu-request-tracker/DESIGN_BRIEF.md for the full brief.
+
+  One functional accent (WHO blue), reserved for actions + links.
+  Status colors are informational, not decorative — they exist because
+  status is the thing this app communicates.
+*/
+
+:root {
+  /* ---- Color: background ---- */
+  --color-bg-primary: #f5f6f7;      /* page canvas */
+  --color-bg-secondary: #ffffff;    /* cards, panels, drawer, inputs */
+  --color-bg-tertiary: #eef1f3;     /* wells: table header row, notes box, track bg */
+  --color-bg-hover: #f7f9fa;        /* row/list hover */
+  --color-bg-inverse: #12283a;
+
+  /* ---- Color: text ---- */
+  --color-text-primary: #12283a;
+  --color-text-secondary: #5f7180;
+  --color-text-tertiary: #93a3b0;
+  --color-text-inverse: #ffffff;
+  --color-text-link: #0093d5;
+
+  /* ---- Color: border ---- */
+  --color-border-primary: #dbe4ea;
+  --color-border-secondary: #eaeef1;
+  --color-border-focus: #0093d5;
+
+  /* ---- Color: accent (single functional accent) ---- */
+  --color-accent-primary: #0093d5;
+  --color-accent-primary-hover: #005a8c;
+  --color-accent-primary-active: #00456b;
+
+  /* ---- Color: status (informational only) ---- */
+  --status-pending-bg: #fdf0d5;
+  --status-pending-fg: #8a5a00;
+  --status-pending-dot: #e0a800;
+
+  --status-progress-bg: #e2f0fb;
+  --status-progress-fg: #0a4a7a;
+  --status-progress-dot: #1a86d0;
+
+  --status-completed-bg: #e3f4ea;
+  --status-completed-fg: #1a6b3c;
+  --status-completed-dot: #2f9e5c;
+
+  --status-hold-bg: #fbe6e6;
+  --status-hold-fg: #7a2a2a;
+  --status-hold-dot: #cf4646;
+
+  --color-danger: #cf4646;
+  --color-surface-overlay: rgba(18, 40, 58, 0.42);
+
+  /* ---- Spacing (4px base) ---- */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-7: 32px;
+  --space-8: 40px;
+  --space-9: 48px;
+  --space-10: 64px;
+
+  /* ---- Typography ---- */
+  --font-family-body: "IBM Plex Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-family-mono: "IBM Plex Mono", ui-monospace, Consolas, monospace;
+
+  --font-size-xs: 11px;
+  --font-size-sm: 12.5px;
+  --font-size-base: 14px;
+  --font-size-md: 15px;
+  --font-size-lg: 16px;
+  --font-size-xl: 20px;
+  --font-size-2xl: 24px;
+  --font-size-3xl: 28px;
+
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-black: 800;
+
+  --line-height-tight: 1.2;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.65;
+
+  --letter-spacing-tight: -0.02em;
+  --letter-spacing-normal: 0;
+  --letter-spacing-wide: 0.04em;
+
+  /* ---- Layout ---- */
+  --max-width-page: 1180px;
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-full: 999px;
+
+  /* Rams: subtle borders over shadows. Shadows exist only where elevation is functional (drawer, popovers). */
+  --shadow-sm: 0 1px 2px rgba(18, 40, 58, 0.06);
+  --shadow-md: 0 6px 16px rgba(18, 40, 58, 0.10);
+  --shadow-lg: 0 12px 32px rgba(18, 40, 58, 0.14);
+  --shadow-focus: 0 0 0 3px rgba(0, 147, 213, 0.16);
+
+  /* ---- Motion: minimal, purposeful only ---- */
+  --duration-fast: 120ms;
+  --duration-normal: 180ms;
+  --easing-default: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ---- Dark mode: not an inversion. Cool charcoal, desaturated status fills, lightened accent for contrast. ---- */
+[data-theme="dark"] {
+  --color-bg-primary: #0f1720;
+  --color-bg-secondary: #16202b;
+  --color-bg-tertiary: #1c2733;
+  --color-bg-hover: #1a2530;
+  --color-bg-inverse: #f5f6f7;
+
+  --color-text-primary: #e7ecf0;
+  --color-text-secondary: #93a4b3;
+  --color-text-tertiary: #62727f;
+  --color-text-inverse: #12283a;
+  --color-text-link: #4db8e8;
+
+  --color-border-primary: #26333f;
+  --color-border-secondary: #1e2933;
+  --color-border-focus: #4db8e8;
+
+  --color-accent-primary: #2ba3e0;
+  --color-accent-primary-hover: #52bdea;
+  --color-accent-primary-active: #7ccbee;
+
+  --status-pending-bg: #2e2410;
+  --status-pending-fg: #f0c775;
+  --status-pending-dot: #e0a838;
+
+  --status-progress-bg: #142a3a;
+  --status-progress-fg: #7cc4f0;
+  --status-progress-dot: #3aa0e0;
+
+  --status-completed-bg: #10281c;
+  --status-completed-fg: #7fd9a8;
+  --status-completed-dot: #3ec97e;
+
+  --status-hold-bg: #301616;
+  --status-hold-fg: #f0a3a3;
+  --status-hold-dot: #e05c5c;
+
+  --color-danger: #e0716f;
+  --color-surface-overlay: rgba(0, 0, 0, 0.6);
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 6px 16px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.5);
+  --shadow-focus: 0 0 0 3px rgba(43, 163, 224, 0.28);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --color-bg-primary: #0f1720;
+    --color-bg-secondary: #16202b;
+    --color-bg-tertiary: #1c2733;
+    --color-bg-hover: #1a2530;
+    --color-bg-inverse: #f5f6f7;
+
+    --color-text-primary: #e7ecf0;
+    --color-text-secondary: #93a4b3;
+    --color-text-tertiary: #62727f;
+    --color-text-inverse: #12283a;
+    --color-text-link: #4db8e8;
+
+    --color-border-primary: #26333f;
+    --color-border-secondary: #1e2933;
+    --color-border-focus: #4db8e8;
+
+    --color-accent-primary: #2ba3e0;
+    --color-accent-primary-hover: #52bdea;
+    --color-accent-primary-active: #7ccbee;
+
+    --status-pending-bg: #2e2410;
+    --status-pending-fg: #f0c775;
+    --status-pending-dot: #e0a838;
+
+    --status-progress-bg: #142a3a;
+    --status-progress-fg: #7cc4f0;
+    --status-progress-dot: #3aa0e0;
+
+    --status-completed-bg: #10281c;
+    --status-completed-fg: #7fd9a8;
+    --status-completed-dot: #3ec97e;
+
+    --status-hold-bg: #301616;
+    --status-hold-fg: #f0a3a3;
+    --status-hold-dot: #e05c5c;
+
+    --color-danger: #e0716f;
+    --color-surface-overlay: rgba(0, 0, 0, 0.6);
+
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 6px 16px rgba(0, 0, 0, 0.4);
+    --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.5);
+    --shadow-focus: 0 0 0 3px rgba(43, 163, 224, 0.28);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
