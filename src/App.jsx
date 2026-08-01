@@ -900,7 +900,7 @@ export default function App() {
   const [rows, setRows] = useState([]);
   const [loading, setLoading] = useState(true);
   const [loadError, setLoadError] = useState("");
-  const [tab, setTab] = useState("dash");
+  const [tab, setTab] = useState("submit");
   const [dark, setDark] = useState(() =>
     typeof window !== "undefined" && window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches
   );
@@ -918,7 +918,14 @@ export default function App() {
       setLoading(false);
     });
 
-    supabase.auth.getSession().then(({ data }) => { if (!cancelled) setSession(data.session); });
+    // If already signed in when the app loads (a persisted session), land on
+    // the Dashboard instead of the Submit form. Only applies to this initial
+    // check — signing in later mid-session shouldn't yank the tab away.
+    supabase.auth.getSession().then(({ data }) => {
+      if (cancelled) return;
+      setSession(data.session);
+      if (data.session) setTab("dash");
+    });
     const { data: authSub } = supabase.auth.onAuthStateChange((_event, s) => setSession(s));
 
     return () => { cancelled = true; authSub.subscription.unsubscribe(); };
