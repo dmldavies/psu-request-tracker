@@ -159,53 +159,16 @@
   --shadow-focus: 0 0 0 3px rgba(43, 163, 224, 0.28);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --color-bg-primary: #0f1720;
-    --color-bg-secondary: #16202b;
-    --color-bg-tertiary: #1c2733;
-    --color-bg-hover: #1a2530;
-    --color-bg-inverse: #f5f6f7;
-
-    --color-text-primary: #e7ecf0;
-    --color-text-secondary: #93a4b3;
-    --color-text-tertiary: #62727f;
-    --color-text-inverse: #12283a;
-    --color-text-link: #4db8e8;
-
-    --color-border-primary: #26333f;
-    --color-border-secondary: #1e2933;
-    --color-border-focus: #4db8e8;
-
-    --color-accent-primary: #2ba3e0;
-    --color-accent-primary-hover: #52bdea;
-    --color-accent-primary-active: #7ccbee;
-
-    --status-pending-bg: #2e2410;
-    --status-pending-fg: #f0c775;
-    --status-pending-dot: #e0a838;
-
-    --status-progress-bg: #142a3a;
-    --status-progress-fg: #7cc4f0;
-    --status-progress-dot: #3aa0e0;
-
-    --status-completed-bg: #10281c;
-    --status-completed-fg: #7fd9a8;
-    --status-completed-dot: #3ec97e;
-
-    --status-hold-bg: #301616;
-    --status-hold-fg: #f0a3a3;
-    --status-hold-dot: #e05c5c;
-
-    --color-danger: #e0716f;
-    --color-surface-overlay: rgba(0, 0, 0, 0.6);
-
-    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
-    --shadow-md: 0 6px 16px rgba(0, 0, 0, 0.4);
-    --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.5);
-    --shadow-focus: 0 0 0 3px rgba(43, 163, 224, 0.28);
-  }
-}
+/*
+  No prefers-color-scheme media query here on purpose: this is a client-only
+  SPA, so React sets [data-theme] correctly on the very first render (the
+  useState initializer already reads matchMedia) — there's no pre-JS content
+  to protect with a CSS fallback. A media query targeting :root would apply
+  to <html>, which never carries [data-theme] (only the app's root div does),
+  so it would silently override the div's inherited values whenever the OS
+  is in dark mode — breaking the in-app toggle. Keep theme switching purely
+  attribute-driven.
+*/
 
 @media (prefers-reduced-motion: reduce) {
   * {
