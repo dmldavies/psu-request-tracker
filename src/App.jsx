@@ -54,7 +54,7 @@ const CSV_COLUMNS = [
   ["slaUnit", "Support Unit"], ["slaService", "Service Requested"], ["slaTurnaround", "SLA Target"],
   ["description", "Request"], ["requestedBy", "Requested By"], ["location", "Location"],
   ["dateSent", "Date Sent"], ["expected", "Expected"], ["actual", "Actual"],
-  ["status", "Status"], ["notes", "Notes"],
+  ["status", "Status"], ["incTicket", "INC Ticket Number"], ["notes", "Notes"],
 ];
 function csvEscape(v) {
   const s = (v ?? "").toString();
@@ -723,6 +723,7 @@ function DetailDrawer({ r, onClose, update, isAdmin, onSignIn }) {
   const [actual, setActual] = useState(r.actual || "");
   const [slaUnit, setSlaUnit] = useState(r.slaUnit || "");
   const [slaService, setSlaService] = useState(r.slaService || "");
+  const [incTicket, setIncTicket] = useState(r.incTicket || "");
   const [saving, setSaving] = useState(false);
   const [saveError, setSaveError] = useState("");
 
@@ -749,6 +750,7 @@ function DetailDrawer({ r, onClose, update, isAdmin, onSignIn }) {
     if (expected !== (r.expected || "")) changes.push("Expected date updated");
     if (finalActual !== (r.actual || "")) changes.push("Completion date set");
     if (slaUnit !== (r.slaUnit || "") || slaService !== (r.slaService || "")) changes.push("Support unit / service updated");
+    if (incTicket.trim() !== (r.incTicket || "")) changes.push(incTicket.trim() ? `INC ticket set: ${incTicket.trim()}` : "INC ticket cleared");
     if (note.trim()) changes.push(note.trim());
     if (changes.length) hist.push({ t: today(), by: "PSU Admin", note: changes.join(" · ") });
     setSaving(true);
@@ -756,6 +758,7 @@ function DetailDrawer({ r, onClose, update, isAdmin, onSignIn }) {
     const result = await update(r.id, {
       status, expected, actual: finalActual, history: hist,
       slaUnit, slaService, slaBusinessArea: slaItem ? slaItem.businessArea : "", slaTurnaround: slaItem ? slaItem.turnaround : "",
+      incTicket: incTicket.trim(),
     });
     setSaving(false);
     if (result && result.error) {
@@ -789,6 +792,7 @@ function DetailDrawer({ r, onClose, update, isAdmin, onSignIn }) {
             {!isAdmin && r.slaTurnaround && <Meta k="SLA target" v={r.slaTurnaround} />}
             {!isAdmin && <Meta k="Expected completion" v={r.expected || "—"} />}
             {!isAdmin && <Meta k="Actual completion" v={r.actual || "—"} />}
+            {!isAdmin && r.incTicket && <Meta k="INC ticket number" v={r.incTicket} />}
           </div>
           {r.notes && (
             <div style={{ background: PAPER, borderRadius: "var(--radius-md)", padding: "12px 14px", marginBottom: 20 }}>
@@ -839,8 +843,12 @@ function DetailDrawer({ r, onClose, update, isAdmin, onSignIn }) {
                 <Field label="Actual completion" hint={status === "Completed" && !actual.trim() ? "Left blank — will default to today on save." : undefined}><input type="date" style={inputStyle} value={actual} onChange={e => setActual(e.target.value)} /></Field>
               </div>
 
+              <Field label="INC ticket number" hint="From the CSU Service Centre, once raised.">
+                <input style={{ ...inputStyle, fontFamily: MONO }} value={incTicket} onChange={e => setIncTicket(e.target.value)} placeholder="e.g. INC4056065" />
+              </Field>
+
               <Field label="Add an update note">
-                <textarea style={{ ...inputStyle, minHeight: 60, resize: "vertical" }} value={note} onChange={e => setNote(e.target.value)} placeholder="e.g. Ticket INC4056065 raised with CSU Service Centre" />
+                <textarea style={{ ...inputStyle, minHeight: 60, resize: "vertical" }} value={note} onChange={e => setNote(e.target.value)} placeholder="Any other context or progress update" />
               </Field>
 
               {saveError && <div style={{ fontSize: 12.5, color: DANGER, marginBottom: 10 }}>{saveError}</div>}

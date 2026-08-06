@@ -17,6 +17,7 @@ Project: `psu-request-tracker` (Supabase org: dmldavies, region: eu-west-1)
 | `expected` | `date`, nullable | Auto-computed from the matched SLA's turnaround time |
 | `actual` | `date`, nullable | Defaults to today on save if left blank when marking Completed |
 | `sla_unit`, `sla_service`, `sla_business_area`, `sla_turnaround` | `text`, nullable | Matched entry from the SLA catalog (`src/sla_catalog.json`) |
+| `inc_ticket` | `text`, nullable | CSU Service Centre incident ticket number (e.g. `INC4056065`), admin-editable — kept separate from `notes` |
 | `notes` | `text` | |
 | `history` | `jsonb` | Array of `{ t, by, note }` |
 | `created_at`, `updated_at` | `timestamptz` | `updated_at` auto-refreshed by trigger |
@@ -33,7 +34,7 @@ No `delete` policy exists (default deny) — the app never deletes requests.
 
 ## Reproducing the schema
 
-The DDL (table, indexes, trigger, RLS policies) was applied via Supabase migrations named `create_requests_table` and `harden_set_updated_at_search_path`. To recreate on a fresh project, pull the migration history with the Supabase CLI (`supabase migration list` / `supabase db pull`) against this project, or re-run the DDL from the Supabase dashboard's SQL editor — the full statements are in the migration history, not duplicated here to avoid drift.
+The DDL (table, indexes, trigger, RLS policies) was applied via Supabase migrations named `create_requests_table`, `harden_set_updated_at_search_path`, and `add_inc_ticket_column`. To recreate on a fresh project, pull the migration history with the Supabase CLI (`supabase migration list` / `supabase db pull`) against this project, or re-run the DDL from the Supabase dashboard's SQL editor — the full statements are in the migration history, not duplicated here to avoid drift.
 
 ## Data seeding
 

@@ -27,6 +27,7 @@ export function rowToRecord(row) {
     slaService: row.sla_service || "",
     slaBusinessArea: row.sla_business_area || "",
     slaTurnaround: row.sla_turnaround || "",
+    incTicket: row.inc_ticket || "",
     notes: row.notes || "",
     history: row.history || [],
   };
@@ -48,6 +49,7 @@ export function recordToRow(rec) {
     sla_service: rec.slaService || null,
     sla_business_area: rec.slaBusinessArea || null,
     sla_turnaround: rec.slaTurnaround || null,
+    inc_ticket: rec.incTicket || null,
     notes: rec.notes || "",
     history: rec.history || [],
   };
@@ -58,6 +60,7 @@ export function patchToRow(patch) {
   const map = {
     status: "status", expected: "expected", actual: "actual", history: "history",
     slaUnit: "sla_unit", slaService: "sla_service", slaBusinessArea: "sla_business_area", slaTurnaround: "sla_turnaround",
+    incTicket: "inc_ticket",
   };
   const row = {};
   for (const [key, col] of Object.entries(map)) {
